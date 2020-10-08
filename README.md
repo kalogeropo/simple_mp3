@@ -4,6 +4,8 @@ This is a simple mp3 player
 
     *play a song
 
+    *play multiple songs
+
     *load and store a playlist
 
     *go to next song or previous song
