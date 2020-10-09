@@ -89,8 +89,23 @@ def next_song():
 
 
 
-
-    #pause when we can here the song
+def previous_song():
+    # current song as a tuple
+    nxt = song_box.curselection()
+    # indexing the next song
+    nxt_index = nxt[0] - 1
+    if nxt_index == 0:
+        nxt_index=len(playlist)-1
+    if nxt_index < len(playlist):
+        # update active bar on songs_box
+        song_box.selection_clear(0, END)
+        song = playlist[nxt_index]
+        song_box.activate(nxt_index)
+        song_box.selection_set(nxt_index, last=None)
+        # play
+        pg.mixer.music.load(song)
+        pg.mixer.music.set_volume(0.3)
+        pg.mixer.music.play(loops=0)
 
 
 #init and create the player window
@@ -117,7 +132,7 @@ ctr_frame.pack()
 next_btn = Button(ctr_frame,text =nxt_btn,command = next_song)
 play_btn = Button(ctr_frame,text =pl_btn,command=play)
 stop_btn = Button(ctr_frame,text =st_btn,command=stop)
-previous_btn = Button(ctr_frame,text =prv_btn)
+previous_btn = Button(ctr_frame,text =prv_btn,command = previous_song)
 pause_btn = Button(ctr_frame,text =pau_btn,command = lambda: pause(paused))
 
 next_btn.grid(row=0,column=0,padx=5)
