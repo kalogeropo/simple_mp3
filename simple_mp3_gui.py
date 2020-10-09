@@ -15,7 +15,8 @@ def add_song():
         song = song[-1]
     # add to on screen playlist
         song_box.insert(END,song)
-        print(playlist)
+    else:
+        print("duplicate")
 
 def add_multiple_songs():
     songs = filedialog.askopenfilenames(initialdir = "E:/Tango Music/",title = "choose songs")
@@ -28,9 +29,10 @@ def add_multiple_songs():
             song = song[-1]
     # add to on screen playlist
             song_box.insert(END,song)
-    print(playlist)
-
+        else:
+            print("duplicate")
 #play the song which is active on the listbox
+#!!!!!!!!!!!!!!!issue if i clear the list and hit play it plays the last selectected song!!!!!
 def play():
 
     if len(playlist)>0:
@@ -108,6 +110,21 @@ def previous_song():
         pg.mixer.music.play(loops=0)
 
 
+def delete_song():
+    short_song_name = song_box.get(ACTIVE)
+    for index, sng in enumerate(playlist):
+        if short_song_name in sng:
+            song_box.delete(ANCHOR)
+            playlist.pop(index)
+            pg.mixer.music.stop()
+
+def clear_all():
+    for item in playlist:
+        playlist.remove(item)
+    song_box.selection_clear(0, END)
+    song_box.delete(0,END)
+    pg.mixer.music.stop()
+
 #init and create the player window
 root = Tk()
 root.title("Simple mp3 player")
@@ -152,7 +169,11 @@ add_song_menu = Menu(menu)
 menu.add_cascade(label = "Add Songs",menu=add_song_menu)
 add_song_menu.add_command(label = "Add One Song To Qeue", command = add_song)
 
-
 #add multiple songs
 add_song_menu.add_command(label = "Add Songs To Qeue", command = add_multiple_songs)
+
+#delete songs and clear playlist
+add_song_menu.add_command(label = "Delete Song From Qeue", command = delete_song)
+add_song_menu.add_command(label="Clear All", command = clear_all)
+
 root.mainloop()
