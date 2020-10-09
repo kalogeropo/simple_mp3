@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import filedialog
 import pygame as pg
+from mutagen.mp3 import MP3
 
 
 playlist=[]
@@ -44,6 +45,8 @@ def play():
         pg.mixer.music.load(song)
         pg.mixer.music.set_volume(0.3)
         pg.mixer.music.play(loops=0)
+        #show song duration in status bar
+        song_dur()
 
 def stop():
     pg.mixer.music.stop()
@@ -77,6 +80,7 @@ def next_song():
         pg.mixer.music.load(song)
         pg.mixer.music.set_volume(0.3)
         pg.mixer.music.play(loops=0)
+        song_dur()
     else:
         nxt_index=0
         # update active bar on songs_box
@@ -88,7 +92,7 @@ def next_song():
         pg.mixer.music.load(song)
         pg.mixer.music.set_volume(0.3)
         pg.mixer.music.play(loops=0)
-
+        song_dur()
 
 
 def previous_song():
@@ -108,6 +112,8 @@ def previous_song():
         pg.mixer.music.load(song)
         pg.mixer.music.set_volume(0.3)
         pg.mixer.music.play(loops=0)
+        song_dur()
+
 
 
 def delete_song():
@@ -124,6 +130,35 @@ def clear_all():
     song_box.selection_clear(0, END)
     song_box.delete(0,END)
     pg.mixer.music.stop()
+
+def convertMillis(millisec):
+    seconds = (millisec / 1000) % 60
+    seconds = int(seconds)
+    minutes = (millisec / (1000 * 60)) % 60
+    minutes = int(minutes)
+    return seconds,minutes
+
+def song_dur():
+    current_time= pg.mixer.music.get_pos()
+    #convert time in min and sec using convertmilis function not time (reasons ;) )
+    #at first the result is on msecs
+    curr_sec , curr_mins=convertMillis(current_time)
+    current_time = str(curr_mins) + ":" + str(curr_sec)
+
+#determine song duration: easiest way using mutagen module !! possible issue file types.
+    song = song_box.get(ACTIVE)
+    for index, sng in enumerate(playlist):
+        if song in sng:
+            song = playlist[index]
+    song_d = MP3(song)
+    song_duration =song_d.info.length
+    #print(song_duration)
+    song_duration_sec ,song_duration_mins = convertMillis(song_duration*1000)
+    #print(str(song_duration_mins) + " : " + str(song_duration_sec))
+    total_duration = str(song_duration_mins) + " : " + str(song_duration_sec)
+    status_bar.config(text="Time elapsed: "+current_time + " of " + total_duration )
+    # update song duration after 1000msecs it will rerun the song_dur function
+    status_bar.after(1000,song_dur)
 
 #init and create the player window
 root = Tk()
@@ -175,5 +210,9 @@ add_song_menu.add_command(label = "Add Songs To Qeue", command = add_multiple_so
 #delete songs and clear playlist
 add_song_menu.add_command(label = "Delete Song From Qeue", command = delete_song)
 add_song_menu.add_command(label="Clear All", command = clear_all)
+
+#status bar
+status_bar= Label(root,text='',bd=1,relief=GROOVE,anchor= E)
+status_bar.pack(fill=X,side = BOTTOM,ipady=2)
 
 root.mainloop()
