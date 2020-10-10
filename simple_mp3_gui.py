@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import filedialog
+from tkinter import ttk
 import pygame as pg
 from mutagen.mp3 import MP3
 
@@ -160,6 +161,9 @@ def song_dur():
     # update song duration after 1000msecs it will rerun the song_dur function
     status_bar.after(1000,song_dur)
 
+def slide(coord):
+    pass
+
 #init and create the player window
 root = Tk()
 root.title("Simple mp3 player")
@@ -214,5 +218,9 @@ add_song_menu.add_command(label="Clear All", command = clear_all)
 #status bar
 status_bar= Label(root,text='',bd=1,relief=GROOVE,anchor= E)
 status_bar.pack(fill=X,side = BOTTOM,ipady=2)
+
+#music slider
+slider = ttk.Scale(root, from_=0, to = 100, orient=HORIZONTAL, length = 300, command = slide,value=0)
+slider.pack(fill=X,pady =20)
 
 root.mainloop()
