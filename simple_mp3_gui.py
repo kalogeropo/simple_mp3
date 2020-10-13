@@ -8,7 +8,7 @@ from mutagen.mp3 import MP3
 playlist=[]
 pg.mixer.init()
 def add_song():
-    song = filedialog.askopenfilename(initialdir = "E:/Tango Music/",title = "choose song")
+    song = filedialog.askopenfilename(initialdir = "C:/Users/nrkal/Music/",title = "choose song")
     # add_full_path to playlist
     if song not in playlist:
         playlist.append(song)
@@ -21,7 +21,7 @@ def add_song():
         print("duplicate")
 
 def add_multiple_songs():
-    songs = filedialog.askopenfilenames(initialdir = "E:/Tango Music/",title = "choose songs")
+    songs = filedialog.askopenfilenames(initialdir = "C:/Users/nrkal/Music/",title = "choose songs")
     # add_full_path to playlist
     for song in songs:
         if song not in playlist:
@@ -67,53 +67,56 @@ def pause(is_paused):
         paused =True
 
 def next_song():
+    if len(playlist)!=0:#check empty playlist
     #current song as a tuple
-    nxt=song_box.curselection()
-    #indexing the next song
-    nxt_index = nxt[0] + 1
-    if nxt_index < len(playlist):
-    #update active bar on songs_box
-        song_box.selection_clear(0,END)
-        song = playlist[nxt_index]
-        song_box.activate(nxt_index)
-        song_box.selection_set(nxt_index, last=None)
-    #play
-        pg.mixer.music.load(song)
-        pg.mixer.music.set_volume(0.3)
-        pg.mixer.music.play(loops=0)
-        song_dur()
-    else:
-        nxt_index=0
-        # update active bar on songs_box
-        song_box.selection_clear(0, END)
-        song = playlist[nxt_index]
-        song_box.activate(nxt_index)
-        song_box.selection_set(nxt_index, last=None)
-        # play
-        pg.mixer.music.load(song)
-        pg.mixer.music.set_volume(0.3)
-        pg.mixer.music.play(loops=0)
-        song_dur()
+        nxt=song_box.curselection()
+        #indexing the next song
+        nxt_index = nxt[0] + 1
+        if nxt_index < len(playlist) :
+        #update active bar on songs_box
+            song_box.selection_clear(0,END)
+            song = playlist[nxt_index]
+            song_box.activate(nxt_index)
+            song_box.selection_set(nxt_index, last=None)
+        #play
+            pg.mixer.music.load(song)
+            pg.mixer.music.set_volume(0.3)
+            pg.mixer.music.play(loops=0)
+            song_dur()
+        else:
+            nxt_index=0
+            # update active bar on songs_box
+            song_box.selection_clear(0, END)
+            song = playlist[nxt_index]
+            song_box.activate(nxt_index)
+            song_box.selection_set(nxt_index, last=None)
+            # play
+            pg.mixer.music.load(song)
+            pg.mixer.music.set_volume(0.3)
+            pg.mixer.music.play(loops=0)
+            song_dur()
 
 
 def previous_song():
-    # current song as a tuple
-    nxt = song_box.curselection()
-    # indexing the next song
-    nxt_index = nxt[0] - 1
-    if nxt_index == 0:
-        nxt_index=len(playlist)-1
-    if nxt_index < len(playlist):
-        # update active bar on songs_box
-        song_box.selection_clear(0, END)
-        song = playlist[nxt_index]
-        song_box.activate(nxt_index)
-        song_box.selection_set(nxt_index, last=None)
-        # play
-        pg.mixer.music.load(song)
-        pg.mixer.music.set_volume(0.3)
-        pg.mixer.music.play(loops=0)
-        song_dur()
+
+    if len(playlist)!=0:#check empty playlist
+        # current song as a tuple
+        nxt = song_box.curselection()
+        # indexing the next song
+        nxt_index = nxt[0] - 1
+        if nxt_index == 0:
+            nxt_index=len(playlist)-1
+        if nxt_index < len(playlist):
+            # update active bar on songs_box
+            song_box.selection_clear(0, END)
+            song = playlist[nxt_index]
+            song_box.activate(nxt_index)
+            song_box.selection_set(nxt_index, last=None)
+            # play
+            pg.mixer.music.load(song)
+            pg.mixer.music.set_volume(0.3)
+            pg.mixer.music.play(loops=0)
+            song_dur()
 
 
 
