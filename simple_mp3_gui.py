@@ -7,6 +7,7 @@ from mutagen.mp3 import MP3
 
 playlist=[]
 pg.mixer.init()
+pg.mixer.music.set_volume(0.2)
 
 global isStopped
 isStopped=False
@@ -50,7 +51,6 @@ def play():
             if short_song_name in sng:
                 song = playlist[index]
         pg.mixer.music.load(song)
-        pg.mixer.music.set_volume(0.3)
         pg.mixer.music.play(loops=0)
         #show song duration in status bar
         song_dur()
@@ -96,7 +96,6 @@ def next_song():
             song_box.selection_set(nxt_index, last=None)
         #play
             pg.mixer.music.load(song)
-            pg.mixer.music.set_volume(0.3)
             pg.mixer.music.play(loops=0)
 
         else:
@@ -108,7 +107,6 @@ def next_song():
             song_box.selection_set(nxt_index, last=None)
             # play
             pg.mixer.music.load(song)
-            pg.mixer.music.set_volume(0.3)
             pg.mixer.music.play(loops=0)
 
 def previous_song():
@@ -131,7 +129,6 @@ def previous_song():
             song_box.selection_set(nxt_index, last=None)
             # play
             pg.mixer.music.load(song)
-            pg.mixer.music.set_volume(0.3)
             pg.mixer.music.play(loops=0)
 
 def delete_song():
@@ -213,7 +210,18 @@ def slide(coord):
             pg.mixer.music.play(loops=0, start=int(slider.get()))
 
 def adj_vol():
-    pass
+    vol = volume_text_box.get()
+    if vol == "":
+        vol=0
+    print(vol)
+    vol = int(vol)/100
+    if vol>=0 and vol<=1:
+        pg.mixer.music.set_volume(vol)
+    else:
+        pg.mixer.music.set_volume(1)
+
+
+
 #init and create the player window
 root = Tk()
 root.title("Simple mp3 player")
@@ -279,11 +287,16 @@ slider = ttk.Scale(root, from_=0, to = 100, orient=HORIZONTAL, length = 300, com
 slider.pack(fill=X,pady =20)
 
 #add volume textbox
-volume_text_box = Entry(root)
+vol_init = StringVar()
+vol_init.set(int(pg.mixer.music.get_volume()*100))
+
+#text="Input values between 0 or 100"
+
+volume_text_box = Entry(root,textvariable = vol_init,width = 5)
 volume_text_label= Label(text="VOLUME: ")
 volume_text_label.pack(side=LEFT,padx=5)
 volume_text_box.pack(side=LEFT,padx=5)
-volume_set=Button(text ="SET",command = adj_vol())
+volume_set=Button(text ="SET",command = adj_vol)
 volume_set.pack(side=LEFT,padx=10)
 
 
