@@ -198,6 +198,7 @@ def song_dur():
     print(int(slider.get()),int(temp),total_duration)
     if int(slider.get())==int(song_duration):#check if song ended
         status_bar.config(text="Time elapsed: " + total_duration + " of " + total_duration)
+        next_song() #when song ends moves to next one
     elif paused==True:
         pass
     elif int(slider.get())==int(temp):
