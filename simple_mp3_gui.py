@@ -4,6 +4,7 @@ from tkinter import ttk
 import pygame as pg
 from mutagen.mp3 import MP3
 
+#TODO: fix issue with previous out of range list BORING!
 
 playlist=[]
 pg.mixer.init()
