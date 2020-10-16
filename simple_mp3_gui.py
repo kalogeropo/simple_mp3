@@ -11,6 +11,8 @@ pg.mixer.music.set_volume(0.2)
 
 global isStopped
 isStopped=False
+global isPlaying
+isPlaying = False
 
 def add_song():
     song = filedialog.askopenfilename(initialdir = "C:/Users/nrkal/Music/",title = "choose song")
@@ -42,9 +44,12 @@ def add_multiple_songs():
 #!!!!!!!!!!!!!!!issue if i clear the list and hit play it plays the last selectected song!!!!!
 def play():
     global isStopped
-
+    global isPlaying
     if len(playlist)>0:
         isStopped=False
+        if isPlaying:
+            return
+        isPlaying=True
         short_song_name = song_box.get(ACTIVE)
         print(short_song_name)
         for index ,sng in enumerate(playlist):
@@ -61,6 +66,8 @@ def stop():
     status_bar.config(text="")
     global  isStopped
     isStopped =True
+    global  isPlaying
+    isPlaying=False
     pg.mixer.music.stop()
     song_box.selection_clear(ACTIVE)
 
@@ -159,6 +166,7 @@ def song_dur():
     #when stopped and played again 2 song_dur running and creates double timing
     if isStopped:
         return 0
+
     current_time= pg.mixer.music.get_pos()
     temp=current_time/1000 # store the current time in msec to update slider position
 
