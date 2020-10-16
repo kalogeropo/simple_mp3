@@ -55,8 +55,6 @@ def play():
         #show song duration in status bar
         song_dur()
 
-
-
 def stop():
     #update status bar slider
     slider.config(value=0)
@@ -113,8 +111,6 @@ def next_song():
             pg.mixer.music.set_volume(0.3)
             pg.mixer.music.play(loops=0)
 
-
-
 def previous_song():
 
     if len(playlist)!=0:#check empty playlist
@@ -137,8 +133,6 @@ def previous_song():
             pg.mixer.music.load(song)
             pg.mixer.music.set_volume(0.3)
             pg.mixer.music.play(loops=0)
-           
-
 
 def delete_song():
     short_song_name = song_box.get(ACTIVE)
@@ -162,7 +156,6 @@ def convertMillis(millisec):
     minutes = int(minutes)
     time = str(minutes) + ":" + str(seconds)
     return seconds,minutes,time
-
 
 def song_dur():
     global isStopped
@@ -211,7 +204,6 @@ def song_dur():
     isStopped = False
     status_bar.after(1000,song_dur)
 
-
 def slide(coord):
     song = song_box.get(ACTIVE)
     for index, sng in enumerate(playlist):
@@ -220,10 +212,12 @@ def slide(coord):
             pg.mixer.music.load(song)
             pg.mixer.music.play(loops=0, start=int(slider.get()))
 
+def adj_vol():
+    pass
 #init and create the player window
 root = Tk()
 root.title("Simple mp3 player")
-root.geometry("500x300")
+root.geometry("300x350")
 
 #playlist box
 song_box = Listbox(root,bg="black", fg="white",width = 60,selectbackground = "green", selectforeground= "black")
@@ -241,6 +235,9 @@ pau_btn = "Pause"
 ctr_frame = Frame(root)
 ctr_frame.pack()
 
+
+
+
 next_btn = Button(ctr_frame,text =nxt_btn,command = next_song)
 play_btn = Button(ctr_frame,text =pl_btn,command=play)
 stop_btn = Button(ctr_frame,text =st_btn,command=stop)
@@ -252,6 +249,8 @@ play_btn.grid(row=0,column=1,padx=5)
 stop_btn.grid(row=0,column=2,padx=5)
 previous_btn.grid(row=0,column=3,padx=5)
 pause_btn.grid(row=0,column=4,padx=5)
+
+
 
 #define menu
 
@@ -278,5 +277,16 @@ status_bar.pack(fill=X,side = BOTTOM,ipady=2)
 #music slider
 slider = ttk.Scale(root, from_=0, to = 100, orient=HORIZONTAL, length = 300, command = slide,value=0)
 slider.pack(fill=X,pady =20)
+
+#add volume textbox
+volume_text_box = Entry(root)
+volume_text_label= Label(text="VOLUME: ")
+volume_text_label.pack(side=LEFT,padx=5)
+volume_text_box.pack(side=LEFT,padx=5)
+volume_set=Button(text ="SET",command = adj_vol())
+volume_set.pack(side=LEFT,padx=10)
+
+
+
 
 root.mainloop()
