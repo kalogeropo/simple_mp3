@@ -80,11 +80,11 @@ def pause(is_paused):
         paused =True
 
 def next_song():
-    # update status bar slider
 
     if len(playlist)!=0:#check empty playlist
     #current song as a tuple
-        # update status bar slider
+
+    # update status bar slider
         slider.config(value=0)
         status_bar.config(text="")
         nxt=song_box.curselection()
@@ -100,8 +100,6 @@ def next_song():
             pg.mixer.music.load(song)
             pg.mixer.music.set_volume(0.3)
             pg.mixer.music.play(loops=0)
-            song_dur()
-            #slider.config(to=song_duration)
 
         else:
             nxt_index=0
@@ -114,8 +112,7 @@ def next_song():
             pg.mixer.music.load(song)
             pg.mixer.music.set_volume(0.3)
             pg.mixer.music.play(loops=0)
-            song_dur()
-            #slider.config(to=song_duration)
+
 
 
 def previous_song():
@@ -140,8 +137,7 @@ def previous_song():
             pg.mixer.music.load(song)
             pg.mixer.music.set_volume(0.3)
             pg.mixer.music.play(loops=0)
-            song_dur()
-            #slider.config(to=song_duration)
+           
 
 
 def delete_song():
