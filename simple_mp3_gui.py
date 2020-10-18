@@ -56,6 +56,14 @@ def play():
         for index ,sng in enumerate(playlist):
             if short_song_name in sng:
                 song = playlist[index]
+        nxt=song_box.curselection()
+        print(nxt)
+        if len(nxt)==0:
+            nxt=[index]
+        song_box.selection_clear(0, END)
+        song_box.activate(nxt[0])
+        song_box.selection_set(nxt[0], last=None)
+
         pg.mixer.music.load(song)
         pg.mixer.music.play(loops=0)
         #show song duration in status bar
