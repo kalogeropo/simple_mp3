@@ -103,8 +103,9 @@ def next_song():
         status_bar.config(text="")
         nxt=song_box.curselection()
         #indexing the next song
-        nxt_index = nxt[0] + 1
-        if nxt_index < len(playlist) :
+        nxt_index = nxt[0]
+        if nxt_index < len(playlist)-1 :
+            nxt_index = nxt[0] + 1
         #update active bar on songs_box
             song_box.selection_clear(0,END)
             song = playlist[nxt_index]
@@ -158,6 +159,8 @@ def delete_song():
 def clear_all():
     for item in playlist:
         playlist.remove(item)
+        #print(item)
+    #print(playlist)
     song_box.selection_clear(0, END)
     song_box.delete(0,END)
     stop()
@@ -237,6 +240,43 @@ def adj_vol():
     else:
         pg.mixer.music.set_volume(1)
 
+def save_pl():
+    file= filedialog.asksaveasfile(title="save a playlist",
+                                   mode='w',
+                                   defaultextension='.txt',
+                                   initialdir = "C:/Users/nrkal/PycharmProjects/simple_mp3/playlists/")
+    if file is None:
+        return
+    print(str(playlist))
+    for item in playlist:
+        file.write('%s \n' %item)
+
+def load_pl():
+    songs=[]
+    file = filedialog.askopenfilename(initialdir = "C:/Users/nrkal/PycharmProjects/simple_mp3/playlists/",
+                                      title = "Import Playlist")
+    with open(file,mode='r') as fd:
+        songs=fd.read()
+        songs=songs.split("\n")
+        fd.close()
+        #clean up songs
+    for song in songs:
+        if song =="":
+            songs.remove(song)
+
+    print(songs)
+    if file is None:
+        return
+    for song in songs:
+        if song not in playlist:
+            playlist.append(song)
+            # beautify song name
+            song = song.split('/')
+            song = song[-1]
+            # add to on screen playlist
+            song_box.insert(END, song)
+        else:
+            print("duplicate")
 
 
 #init and create the player window
@@ -301,7 +341,7 @@ root.config(menu=menu)
 #add song
 
 add_song_menu = Menu(menu)
-menu.add_cascade(label = "Add Songs",menu=add_song_menu)
+menu.add_cascade(label = "File",menu=add_song_menu)
 add_song_menu.add_command(label = "Add One Song To Qeue", command = add_song)
 
 #add multiple songs
@@ -310,6 +350,10 @@ add_song_menu.add_command(label = "Add Songs To Qeue", command = add_multiple_so
 #delete songs and clear playlist
 add_song_menu.add_command(label = "Delete Song From Qeue", command = delete_song)
 add_song_menu.add_command(label="Clear All", command = clear_all)
+
+add_song_menu.add_command(label="Save PlayList", command = save_pl)
+add_song_menu.add_command(label="Load PlayList", command = load_pl)
+
 
 #status bar
 status_bar= Label(root,text='',bd=1,relief=GROOVE,anchor= E)
