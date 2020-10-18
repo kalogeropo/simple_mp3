@@ -3,6 +3,7 @@ from tkinter import filedialog
 from tkinter import ttk
 import pygame as pg
 from mutagen.mp3 import MP3
+import os
 
 #TODO: fix issue with previous out of range list BORING!
 
@@ -52,12 +53,13 @@ def play():
             return
         isPlaying=True
         short_song_name = song_box.get(ACTIVE)
-        print(short_song_name)
+        #print(short_song_name)
         for index ,sng in enumerate(playlist):
             if short_song_name in sng:
                 song = playlist[index]
         nxt=song_box.curselection()
-        print(nxt)
+        #print(nxt)
+        #play stop play stop issue fixed
         if len(nxt)==0:
             nxt=[index]
         song_box.selection_clear(0, END)
@@ -242,10 +244,10 @@ def adj_vol():
 #init and create the player window
 root = Tk()
 root.title("Simple mp3 player")
-root.geometry("300x350")
+root.geometry("300x360")
 
 #playlist box
-song_box = Listbox(root,bg="black", fg="white",width = 60,selectbackground = "green", selectforeground= "black")
+song_box = Listbox(root,bg="black", fg="grey",width = 60,selectbackground = "green", selectforeground= "black")
 song_box.pack(pady=20)
 
 #buttons label
@@ -255,26 +257,42 @@ st_btn = "Stop"
 prv_btn = "Previous"
 pau_btn = "Pause"
 
-#Control box
+#button icons
+b_path="C:/Users/nrkal/PycharmProjects/simple_mp3/icons"
+if os.path.exists(b_path):
+    nxt_img_btn= PhotoImage(file="C:/Users/nrkal/PycharmProjects/simple_mp3/icons/next.png")
+    pau_img_btn = PhotoImage(file="C:/Users/nrkal/PycharmProjects/simple_mp3/icons/pause.png")
+    pl_img_btn = PhotoImage(file="C:/Users/nrkal/PycharmProjects/simple_mp3/icons/play-button.png")
+    prv_img_btn =PhotoImage(file= "C:/Users/nrkal/PycharmProjects/simple_mp3/icons/back.png")
+    st_img_btn= PhotoImage(file="C:/Users/nrkal/PycharmProjects/simple_mp3/icons/stop.png")
+    vol_set_img = PhotoImage(file="C:/Users/nrkal/PycharmProjects/simple_mp3/icons/speaker.png")
 
 ctr_frame = Frame(root)
 ctr_frame.pack()
 
 
 
+if os.path.exists(b_path):
+    next_btn = Button(ctr_frame, image=nxt_img_btn, command=next_song)
+    play_btn = Button(ctr_frame, image=pl_img_btn, command=play)
+    stop_btn = Button(ctr_frame, image=st_img_btn, command=stop)
+    pause_btn = Button(ctr_frame, image=pau_img_btn, command=lambda: pause(paused))
+    previous_btn = Button(ctr_frame, image=prv_img_btn, command=previous_song)
+    volume_set = Button(image=vol_set_img, command=adj_vol)
 
-next_btn = Button(ctr_frame,text =nxt_btn,command = next_song)
-play_btn = Button(ctr_frame,text =pl_btn,command=play)
-stop_btn = Button(ctr_frame,text =st_btn,command=stop)
-previous_btn = Button(ctr_frame,text =prv_btn,command = previous_song)
-pause_btn = Button(ctr_frame,text =pau_btn,command = lambda: pause(paused))
+else:
+    next_btn = Button(ctr_frame,text =nxt_btn,command = next_song)
+    play_btn = Button(ctr_frame,text =pl_btn,command=play)
+    stop_btn = Button(ctr_frame,text =st_btn,command=stop)
+    pause_btn = Button(ctr_frame,text =pau_btn,command = lambda: pause(paused))
+    previous_btn = Button(ctr_frame,text =prv_btn,command = previous_song)
+    volume_set = Button(text="SET", command=adj_vol)
 
 next_btn.grid(row=0,column=0,padx=5)
 play_btn.grid(row=0,column=1,padx=5)
 stop_btn.grid(row=0,column=2,padx=5)
-previous_btn.grid(row=0,column=3,padx=5)
-pause_btn.grid(row=0,column=4,padx=5)
-
+pause_btn.grid(row=0,column=3,padx=5)
+previous_btn.grid(row=0,column=4,padx=5)
 
 
 #define menu
@@ -313,7 +331,6 @@ volume_text_box = Entry(root,textvariable = vol_init,width = 5)
 volume_text_label= Label(text="VOLUME: ")
 volume_text_label.pack(side=LEFT,padx=5)
 volume_text_box.pack(side=LEFT,padx=5)
-volume_set=Button(text ="SET",command = adj_vol)
 volume_set.pack(side=LEFT,padx=10)
 
 
