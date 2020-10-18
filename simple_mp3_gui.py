@@ -5,8 +5,6 @@ import pygame as pg
 from mutagen.mp3 import MP3
 import os
 
-#TODO: fix issue with previous out of range list BORING!
-
 playlist=[]
 pg.mixer.init()
 pg.mixer.music.set_volume(0.2)
@@ -137,7 +135,7 @@ def previous_song():
         nxt = song_box.curselection()
         # indexing the next song
         nxt_index = nxt[0] - 1
-        if nxt_index == 0:
+        if nxt_index < 0:
             nxt_index=len(playlist)-1
         if nxt_index < len(playlist):
             # update active bar on songs_box
