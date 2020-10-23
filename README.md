@@ -1,13 +1,21 @@
-This is a simple mp3 player
+# Simple mp3 player
 
-    main functions:
+## This is a simple mp3 player created in order to practice on GUI implementation using python and tkinter module through a fun project.
 
-    *play a song
+   ### Main Functions:
 
-    *play multiple songs
+   * _Loads a song from a specific folder and plays it_
 
-    *load and store a playlist
+   * _Loads songs from a specific folder and plays them_
 
-    *go to next song or previous song
+   * _Go to next song or previous song of the playlist_
+    
+   * _Load and store a playlist_
+    
+## Used Modules:
 
-    *a simple shuffle playlist option
+   * _Tkinter module for the major part of the GUI_
+   
+   * _Pygame module handles the song playing functions_
+   
+   * _Mutagen module in order to calculate the song duration_
