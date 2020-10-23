@@ -33,3 +33,7 @@
 
 ![simple mp3 2](https://github.com/kalogeropo/simple_mp3/blob/master/icons/images/image3.PNG)
 
+### Issues - Further Development
+
+[ ] Create a makefile and installation proccess
+[ ] Further debugging
