@@ -19,3 +19,17 @@
    * _Pygame module handles the song playing functions_
    
    * _Mutagen module in order to calculate the song duration_
+
+
+## Images
+
+### Layout
+
+![simple mp3 layout](https://github.com/kalogeropo/simple_mp3/blob/master/icons/images/image1.PNG)
+
+### Functionality
+
+![simple mp3 1](https://github.com/kalogeropo/simple_mp3/blob/master/icons/images/image2.PNG)
+
+![simple mp3 2](https://github.com/kalogeropo/simple_mp3/blob/master/icons/images/image3.PNG)
+
