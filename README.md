@@ -35,6 +35,6 @@
 
 ### Issues - Further Development
 
-[ ] Create a makefile and installation proccess
+- [ ] Create a makefile and installation proccess
 
-[ ] Further debugging
+- [ ] Further debugging
