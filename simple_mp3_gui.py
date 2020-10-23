@@ -24,8 +24,7 @@ def add_song():
         song = song[-1]
     # add to on screen playlist
         song_box.insert(END,song)
-    else:
-        print("duplicate")
+
 
 def add_multiple_songs():
     songs = filedialog.askopenfilenames(initialdir = "C:/Users/nrkal/Music/",title = "choose songs")
@@ -38,8 +37,7 @@ def add_multiple_songs():
             song = song[-1]
     # add to on screen playlist
             song_box.insert(END,song)
-        else:
-            print("duplicate")
+
 #play the song which is active on the listbox
 #!!!!!!!!!!!!!!!issue if i clear the list and hit play it plays the last selectected song!!!!!
 def play():
@@ -93,6 +91,15 @@ def pause(is_paused):
         pg.mixer.music.pause()
         paused =True
 
+def play_indx(nxt_index):
+    song_box.selection_clear(0, END)
+    song = playlist[nxt_index]
+    song_box.activate(nxt_index)
+    song_box.selection_set(nxt_index, last=None)
+    # play
+    pg.mixer.music.load(song)
+    pg.mixer.music.play(loops=0)
+
 def next_song():
 
     if len(playlist)!=0:#check empty playlist
@@ -107,24 +114,11 @@ def next_song():
         if nxt_index < len(playlist)-1 :
             nxt_index = nxt[0] + 1
         #update active bar on songs_box
-            song_box.selection_clear(0,END)
-            song = playlist[nxt_index]
-            song_box.activate(nxt_index)
-            song_box.selection_set(nxt_index, last=None)
-        #play
-            pg.mixer.music.load(song)
-            pg.mixer.music.play(loops=0)
-
+            play_indx(nxt_index)
         else:
             nxt_index=0
-            # update active bar on songs_box
-            song_box.selection_clear(0, END)
-            song = playlist[nxt_index]
-            song_box.activate(nxt_index)
-            song_box.selection_set(nxt_index, last=None)
-            # play
-            pg.mixer.music.load(song)
-            pg.mixer.music.play(loops=0)
+            play_indx(nxt_index)
+
 
 def previous_song():
 
@@ -139,14 +133,8 @@ def previous_song():
         if nxt_index < 0:
             nxt_index=len(playlist)-1
         if nxt_index < len(playlist):
-            # update active bar on songs_box
-            song_box.selection_clear(0, END)
-            song = playlist[nxt_index]
-            song_box.activate(nxt_index)
-            song_box.selection_set(nxt_index, last=None)
-            # play
-            pg.mixer.music.load(song)
-            pg.mixer.music.play(loops=0)
+            play_indx(nxt_index)
+
 
 def delete_song():
     short_song_name = song_box.get(ACTIVE)
@@ -201,7 +189,7 @@ def song_dur():
 
     #update time at status_bar, slider position
     # slider.config(to=song_duration)
-    print(int(slider.get()),int(temp),total_duration)
+    #print(int(slider.get()),int(temp),total_duration)
     if int(slider.get())==int(song_duration):#check if song ended
         status_bar.config(text="Time elapsed: " + total_duration + " of " + total_duration)
         next_song() #when song ends moves to next one
@@ -233,7 +221,7 @@ def adj_vol():
     vol = volume_text_box.get()
     if vol == "":
         vol=0
-    print(vol)
+    #print(vol)
     vol = int(vol)/100
     if vol>=0 and vol<=1:
         pg.mixer.music.set_volume(vol)
@@ -247,7 +235,7 @@ def save_pl():
                                    initialdir = "C:/Users/nrkal/PycharmProjects/simple_mp3/playlists/")
     if file is None:
         return
-    print(str(playlist))
+    #print(str(playlist))
     for item in playlist:
         file.write('%s \n' %item)
 
@@ -264,7 +252,7 @@ def load_pl():
         if song =="":
             songs.remove(song)
 
-    print(songs)
+    #print(songs)
     if file is None:
         return
     for song in songs:
@@ -275,8 +263,7 @@ def load_pl():
             song = song[-1]
             # add to on screen playlist
             song_box.insert(END, song)
-        else:
-            print("duplicate")
+
 
 
 #init and create the player window
